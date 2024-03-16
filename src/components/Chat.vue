@@ -1,11 +1,13 @@
 <script>
-export default {}
+export default {
+  data() {
+    
+  }
+}
 </script>
 
 <template>
-  <v-main>
-    <router-view/>
-  </v-main>
+
 </template>
 
 <style scoped>

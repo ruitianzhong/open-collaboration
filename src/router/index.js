@@ -1,5 +1,5 @@
 // Composables
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
   {
@@ -19,6 +19,22 @@ const routes = [
   {
     path: '/signup',
     component: () => import('@/views/Signup.vue')
+  },
+  {
+    path: '/login',
+    component: () => import("@/views/Login.vue")
+  },
+  {
+    path: '/workspace',
+    component: () => import("@/layouts/workspace/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "WorkspaceHome",
+        component: () => import("@/views/Home.vue")
+      }
+
+    ]
   }
 ]
 

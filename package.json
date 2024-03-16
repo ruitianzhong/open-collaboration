@@ -13,9 +13,11 @@
     "@mdi/font": "7.0.96",
     "ant-design-vue": "^4.1.2",
     "core-js": "^3.29.0",
+    "mathjax": "^3.2.2",
     "pinia": "^2.0.0",
     "roboto-fontface": "*",
     "vue": "^3.2.0",
+    "vue-mathjax-next": "^0.0.6",
     "vue-router": "^4.0.0",
     "vuetify": "^3.0.0"
   },
