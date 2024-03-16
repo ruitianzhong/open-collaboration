@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
-    <textarea v-model="formula"/>
+    <v-container>
+      <v-textarea v-model="formula"></v-textarea>
+    </v-container>
     <vue-mathjax :formula="formula"/>
   </div>
 </template>

@@ -77,14 +77,14 @@ export default {
         </template>
 
         <template v-slot:default="{ isActive }">
-          <v-card title="Dialog">
+          <v-card title="Latex公式实时预览" prepend-icon="mdi-math-integral-box">
             <Formula></Formula>
 
             <v-card-actions>
               <v-spacer></v-spacer>
 
               <v-btn
-                text="Close Dialog"
+                text="关闭"
                 @click="isActive.value = false"
               ></v-btn>
             </v-card-actions>
