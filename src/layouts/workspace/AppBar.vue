@@ -42,7 +42,7 @@ export default {
       </v-dialog>
 
 
-      <v-dialog max-width="500">
+      <v-dialog max-width="1000">
         <template v-slot:activator="{ props: activatorProps }">
           <v-btn
             v-bind="activatorProps"
