@@ -38,13 +38,23 @@ export default {
 </script>
 
 <template>
+
+
   <v-container>
+
     <v-sheet>
+      <v-btn-group class="text-lg-right mr-8" style="display: flex;justify-content: flex-end">
+        <v-btn style="" prepend-icon="mdi-plus" href="/workspace/docs/editor" width="80" color="#07c360" height="35"
+               slim
+               variant="flat" density="comfortable" text="添加"></v-btn>
+      </v-btn-group>
+
       <a-list :data-source="list" size="large">
         <template #renderItem="{ item }">
           <a-list-item>
             <template #actions>
-              <a key="list-loadmore-edit" @click="onEdit(item.id)">编辑</a>
+              <a key="list-edit" @click="onEdit(item.id)">编辑</a>
+              <a key="list-delete" @click="onEdit(item.id)">删除</a>
             </template>
             <a-list-item-meta
               description="Last updated on 2024/03/17 Author: Taylor">

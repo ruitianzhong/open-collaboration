@@ -21,7 +21,8 @@ export default defineComponent({
     return {
       text: "# 这是标题",
       toolbars: ["github", "htmlPreview"],
-      id: ""
+      id: "",
+      newDocs: false,
     };
   },
   methods: {
@@ -42,6 +43,9 @@ export default defineComponent({
   },
   mounted() {
     this.id = this.$route.params.id
+    if (this.id == undefined) {
+      this.newDocs = true;
+    }
   }
 });
 </script>
