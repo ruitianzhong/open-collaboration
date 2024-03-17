@@ -41,9 +41,23 @@ const routes = [
       {
         path: "docs",
         name: "Docs",
-        component: () => import("@/components/MDEditor.vue")
+        component: () => import("@/components/docs/DocsList.vue"),
+      },
+      {
+        path: "docs/editor",
+        name: "DocsList",
+        component: () => import("@/components/docs/MDEditor.vue")
+      },
+      {
+        path: "docs/view/:id",
+        name: "Preview",
+        component: () => import("@/components/docs/DocsPreview.vue")
+      },
+      {
+        path:"docs/edit/:id",
+        name:"Edit",
+        component:()=>import("@/components/docs/MDEditor.vue")
       }
-
     ]
   }
 ]
