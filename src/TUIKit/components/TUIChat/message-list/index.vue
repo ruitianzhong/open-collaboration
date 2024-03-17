@@ -9,18 +9,6 @@
       @click="closeChatPop"
     >
       <!-- 安全提示 -->
-      <div class="tui-chat-safe-tips">
-        <span>
-          {{
-            TUITranslateService.t(
-              "TUIChat.【安全提示】本 APP 仅用于体验腾讯云即时通信 IM 产品功能，不可用于业务洽谈与拓展。请勿轻信汇款、中奖等涉及钱款的信息，勿轻易拨打陌生电话，谨防上当受骗。"
-            )
-          }}
-        </span>
-        <a @click="openComplaintLink(Link.complaint)">
-          {{ TUITranslateService.t("TUIChat.点此投诉") }}
-        </a>
-      </div>
       <div
         v-if="isGroup && groupApplicationCount > 0"
         class="tui-chat-application-tips"
@@ -226,7 +214,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, nextTick, computed, onMounted, onUnmounted } from '../../../adapter-vue';
+import {ref, nextTick, computed, onMounted, onUnmounted} from '../../../adapter-vue';
 import TUIChatEngine, {
   IMessageModel,
   TUIStore,
@@ -236,9 +224,9 @@ import TUIChatEngine, {
   TUIGroupService,
   IConversationModel,
 } from '@tencentcloud/chat-uikit-engine';
-import TUICore, { TUIConstants } from '@tencentcloud/tui-core';
-import { outsideClick, getBoundingClientRect, getScrollInfo } from '@tencentcloud/universal-api';
-import { TUIEmojiPlugin } from '@tencentcloud/tui-emoji-plugin';
+import TUICore, {TUIConstants} from '@tencentcloud/tui-core';
+import {outsideClick, getBoundingClientRect, getScrollInfo} from '@tencentcloud/universal-api';
+import {TUIEmojiPlugin} from '@tencentcloud/tui-emoji-plugin';
 import throttle from 'lodash/throttle';
 import Link from './link';
 import MessageText from './message-elements/message-text.vue';
@@ -257,16 +245,21 @@ import MessageRevoked from './message-tool/message-revoked.vue';
 import MessagePlugin from '../../../plugins/plugin-components/message-plugin.vue';
 import ScrollButton from './scroll-button/index.vue';
 import ReadReceiptPanel from './read-receipt-panel/index.vue';
-import { isPluginMessage } from '../../../plugins/plugin-components/index';
+import {isPluginMessage} from '../../../plugins/plugin-components/index';
 import MessageGroupSystem from './message-elements/message-group-system.vue';
 import Dialog from '../../common/Dialog/index.vue';
 import ImagePreviewer from '../../common/ImagePreviewer/index.vue';
 import ProgressMessage from '../../common/ProgressMessage/index.vue';
-import { emojiConfig } from '../utils/emoji-config';
-import { isPC, isH5 } from '../../../utils/env';
-import { isEnabledMessageReadReceiptGlobal, shallowCopyMessage, isCreateGroupCustomMessage, deepCopy } from '../utils/utils';
+import {emojiConfig} from '../utils/emoji-config';
+import {isPC, isH5} from '../../../utils/env';
+import {
+  isEnabledMessageReadReceiptGlobal,
+  shallowCopyMessage,
+  isCreateGroupCustomMessage,
+  deepCopy
+} from '../utils/utils';
 
-import { IGroupApplicationListItem } from '../../../interface';
+import {IGroupApplicationListItem} from '../../../interface';
 
 interface ScrollConfig {
   scrollToMessage?: IMessageModel;
@@ -420,21 +413,21 @@ async function onMessageListUpdated(list: Array<IMessageModel>) {
     ) {
       const tempMessage = messageTarget.value;
       messageTarget.value = undefined;
-      await scrollToPosition({ scrollToMessage: tempMessage });
+      await scrollToPosition({scrollToMessage: tempMessage});
       await blinkMessage(tempMessage?.ID);
     }
   } else if (beforeHistoryGetScrollHeight.value) {
     await scrollToPosition({
-      scrollToOffset: { bottom: beforeHistoryGetScrollHeight.value },
+      scrollToOffset: {bottom: beforeHistoryGetScrollHeight.value},
     });
     beforeHistoryGetScrollHeight.value = 0;
   } else if (
     newLastMessage?.ID
     && JSON.stringify(oldLastMessage) !== JSON.stringify(newLastMessage)
   ) {
-    await scrollToPosition({ scrollToBottom: true });
+    await scrollToPosition({scrollToBottom: true});
   } else if (hasEmojiReaction && isCurrentListInBottomPosition()) {
-    await scrollToPosition({ scrollToBottom: true });
+    await scrollToPosition({scrollToBottom: true});
   }
   currentLastMessage.value = Object.assign({}, newLastMessage);
   if (isEnabledMessageReadReceiptGlobal()) {
@@ -468,7 +461,7 @@ async function scrollToPosition(config: ScrollConfig = {}): Promise<void> {
           (dom: HTMLElement) => dom?.id === `tui-${config.scrollToMessage?.ID}`,
         );
         if (targetMessageDom?.scrollIntoView) {
-          targetMessageDom.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          targetMessageDom.scrollIntoView({behavior: 'smooth', block: 'nearest'});
         }
       } else if (config.scrollToOffset) {
         if (config.scrollToOffset?.top) {
@@ -496,7 +489,7 @@ async function onMessageSourceUpdated(message: IMessageModel) {
     ) {
       const tempMessage = messageTarget.value;
       messageTarget.value = undefined;
-      await scrollToPosition({ scrollToMessage: tempMessage });
+      await scrollToPosition({scrollToMessage: tempMessage});
       await blinkMessage(tempMessage?.ID);
     }
   }
@@ -537,7 +530,7 @@ const onCurrentConversationIDUpdated = (conversationID: string) => {
 
   // 开启已读回执的状态 群聊缓存群类型
   if (isEnabledMessageReadReceiptGlobal()) {
-    const { groupProfile } = TUIStore.getConversationModel(conversationID) || {};
+    const {groupProfile} = TUIStore.getConversationModel(conversationID) || {};
     groupType = groupProfile?.type;
   }
 };
@@ -549,20 +542,20 @@ const onCurrentConversationUpdated = (conversation: IConversationModel) => {
 // operationType 操作类型 1: 有用户申请加群   23: 普通群成员邀请用户进群
 const onGroupSystemNoticeList = (list: Array<IMessageModel>) => {
   const systemNoticeList = list.filter((message) => {
-    const { operationType } = message.payload;
+    const {operationType} = message.payload;
     return (operationType === 1 || operationType === 23) && message.to === props.groupID;
   });
 
   systemNoticeList.forEach((systemNotice) => {
-    const { operationType } = systemNotice.payload;
+    const {operationType} = systemNotice.payload;
     if (operationType === 1) {
-      const { operatorID } = systemNotice.payload;
+      const {operatorID} = systemNotice.payload;
       if (!applicationUserIDList.value.includes(operatorID)) {
         applicationUserIDList.value.push(operatorID);
       }
     }
     if (operationType === 23) {
-      const { inviteeList } = systemNotice.payload;
+      const {inviteeList} = systemNotice.payload;
       inviteeList.forEach((invitee: string) => {
         if (!applicationUserIDList.value.includes(invitee)) {
           applicationUserIDList.value.push(invitee);
@@ -588,7 +581,7 @@ const handleGroupApplication = (userID: string) => {
 // 获取历史消息
 const getHistoryMessageList = () => {
   TUIChatService.getMessageList().then((res: any) => {
-    const { nextReqMessageID: ID } = res.data;
+    const {nextReqMessageID: ID} = res.data;
     nextReqMessageID.value = ID;
   });
   // 获取历史消息后，保持滚动条在原来位置
@@ -653,16 +646,20 @@ function filterTopMessageDom(toggleMessageElement: any) {
 let timer: number;
 const handleH5LongPress = (e: any, message: IMessageModel, type: string) => {
   if (!isH5) return;
+
   function longPressHandler() {
     clearTimeout(timer);
     handleToggleMessageItem(e, message);
   }
+
   function touchStartHandler() {
     timer = setTimeout(longPressHandler, 500);
   }
+
   function touchEndHandler() {
     clearTimeout(timer);
   }
+
   switch (type) {
     case 'touchstart':
       touchStartHandler();
@@ -709,8 +706,8 @@ function blinkMessage(messageID: string): Promise<void> {
 
 // 滚动到最新消息
 async function scrollToLatestMessage() {
-  const { scrollHeight } = await getScrollInfo('#messageScrollList');
-  const { height } = await getBoundingClientRect('#messageScrollList');
+  const {scrollHeight} = await getScrollInfo('#messageScrollList');
+  const {height} = await getBoundingClientRect('#messageScrollList');
   if (messageListRef.value) {
     messageListRef.value.scrollTop = scrollHeight - height;
   }
@@ -718,7 +715,7 @@ async function scrollToLatestMessage() {
 
 const handelScrollListScroll = throttle(function (e: Event) {
   scrollButtonInstanceRef.value?.judgeScrollOverOneScreen(e);
-}, 150, { leading: true });
+}, 150, {leading: true});
 
 async function bindIntersectionObserver() {
   if (messageList.value.length === 0) {
@@ -738,9 +735,9 @@ async function bindIntersectionObserver() {
   observer?.disconnect();
   observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      const { isIntersecting, target } = entry;
+      const {isIntersecting, target} = entry;
       if (isIntersecting) {
-        const { msgDom, msgModel } = mappingFromIDToMessage[target.id];
+        const {msgDom, msgModel} = mappingFromIDToMessage[target.id];
         if (
           msgModel
           && !msgModel.readReceiptInfo?.isPeerRead

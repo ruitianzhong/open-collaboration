@@ -1,9 +1,10 @@
 <script>
 import Translation from "@/components/Translation.vue";
 import Formula from "@/components/Formula.vue";
+import Chat from "@/components/Chat.vue";
 
 export default {
-  components: {Formula, Translation},
+  components: {Chat, Formula, Translation},
   data() {
     return {}
   }
@@ -11,7 +12,7 @@ export default {
 </script>
 <template>
   <v-app-bar flat>
-    <v-icon icon="mdi-cube" size="35" class="ml-3 mr-2"></v-icon>
+    <v-btn icon="mdi-cube" size="35" class="ml-3 mr-2" href="/workspace"></v-btn>
     <v-btn text="Latex" density="default"></v-btn>
     <v-btn text="文件共享" density="default"></v-btn>
 
@@ -51,21 +52,12 @@ export default {
         </template>
 
         <template v-slot:default="{ isActive }">
-          <v-card title="Dialog">
-            <v-card-text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.
-            </v-card-text>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
+          <Chat></Chat>
 
-              <v-btn
-                text="Close Dialog"
-                @click="isActive.value = false"
-              ></v-btn>
-            </v-card-actions>
-          </v-card>
+          <v-spacer></v-spacer>
+
+
         </template>
       </v-dialog>
       <v-dialog max-width="500">
@@ -91,9 +83,7 @@ export default {
           </v-card>
         </template>
       </v-dialog>
-
-
-      <v-btn icon="mdi-account"></v-btn>
+      <v-btn icon="mdi-account" href="/workspace/userinfo"></v-btn>
     </template>
     <!--    </v-container>-->
   </v-app-bar>

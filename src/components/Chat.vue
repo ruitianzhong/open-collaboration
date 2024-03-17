@@ -1,15 +1,52 @@
-<script>
-export default {
-  data() {
-    
-  }
-}
-</script>
-
 <template>
+  <div :class="['TUIKit', isH5 && 'TUIKit-h5']">
+    <div class="TUIKit-main-container">
+
+      <TUIChat v-show="!isH5 || currentConversationID">
+        <h1 class="text-center">欢迎使用在线沟通功能</h1>
+      </TUIChat>
+      <TUICallKit
+        class="callkit-container"
+        :allowedMinimized="true"
+        :allowedFullScreen="true"
+      />
+    </div>
+  </div>
 
 </template>
+<script setup lang="ts">
+import {ref} from "vue";
+import {TUIStore, StoreName, TUIConversationService} from "@tencentcloud/chat-uikit-engine";
+import {TUICallKit} from "@tencentcloud/call-uikit-vue";
+import {TUIChat} from "@/TUIKit";
+import {isH5} from "@/TUIKit/utils/env";
 
-<style scoped>
+const currentConversationID = ref<string>("");
+const userID = "root";
+const groupID = "group1";
+TUIStore.watch(StoreName.CONV, {
+  currentConversationID: (id: string) => {
+    currentConversationID.value = id;
+  },
+});
+TUIConversationService.switchConversation(`GROUP${groupID}`);
 
+function openChat() {
+  // 切换会话进入聊天
+  TUIConversationService.switchConversation(`C2C${userID}`);
+}
+
+function openGroupChat() {
+  // 切换会话进入聊天
+  TUIConversationService.switchConversation(`GROUP${groupID}`);
+}
+</script>
+<style scoped lang="scss">
+@import "@/TUIKit/assets/styles/common.scss";
+@import "@/TUIKit/assets/styles/sample.scss";
+
+.chat {
+  flex: 0.8;
+  background: white;
+}
 </style>
