@@ -13,7 +13,7 @@ export default {
 <template>
   <v-app-bar flat>
     <v-btn icon="mdi-cube" size="35" class="ml-3 mr-2" href="/workspace"></v-btn>
-    <v-btn text="Latex" density="default"></v-btn>
+    <v-btn text="文档" density="default" href="/workspace/docs"></v-btn>
     <v-btn text="文件共享" density="default"></v-btn>
 
     <template v-slot:append>
