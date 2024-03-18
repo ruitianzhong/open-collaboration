@@ -57,6 +57,11 @@ const routes = [
         path: "docs/edit/:id",
         name: "Edit",
         component: () => import("@/components/docs/MDEditor.vue")
+      },
+      {
+        path: "files",
+        name: "Files",
+        component: () => import("@/components/files/FileList.vue")
       }
     ]
   }

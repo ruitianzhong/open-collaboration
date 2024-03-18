@@ -1,6 +1,6 @@
 <template>
   <div class="fill-height">
-    <v-btn href="/workspace/docs" icon="mdi-chevron-left" class="mb-3 ml-3" size="30" color="grey"></v-btn>
+    <v-btn variant="plain"  href="/workspace/docs" icon="mdi-chevron-left" class="mb-2 ml-2 mt-1" size="40" color="black"></v-btn>
     <md-editor class="" v-model="text" :toolbars-exclude="toolbars" @onSave="onSave" @onChange="onChange"
                @onUploadImg="onUploadImg" no-upload-img/>
   </div>

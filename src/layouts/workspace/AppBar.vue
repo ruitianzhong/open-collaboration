@@ -11,17 +11,20 @@ export default {
 }
 </script>
 <template>
-  <v-app-bar flat>
-    <v-btn icon="mdi-cube" size="35" class="ml-3 mr-2" href="/workspace"></v-btn>
-    <v-btn text="文档" density="default" href="/workspace/docs"></v-btn>
-    <v-btn text="文件共享" density="default"></v-btn>
+  <v-app-bar flat elevation="1" density="comfortable">
+    <v-btn icon="mdi-cube" variant="plain" size="35" class="ml-3 mr-2" href="/workspace" color="black"></v-btn>
+    <v-btn variant="plain" text="文档" density="comfortable" href="/workspace/docs" color="black"></v-btn>
+    <v-btn text="文件共享"  variant="plain" density="default" color="black" href="/workspace/files"></v-btn>
 
     <template v-slot:append>
+      <v-divider vertical class="mr-2"></v-divider>
       <v-dialog max-width="500">
         <template v-slot:activator="{ props: activatorProps }">
           <v-btn
             v-bind="activatorProps"
             icon="mdi-translate"
+            variant="plain"
+            color="black"
           ></v-btn>
         </template>
 
@@ -48,6 +51,8 @@ export default {
           <v-btn
             v-bind="activatorProps"
             icon="mdi-chat"
+            variant="plain"
+            color="black"
           ></v-btn>
         </template>
 
@@ -65,6 +70,8 @@ export default {
           <v-btn
             v-bind="activatorProps"
             icon="mdi-math-integral-box"
+            variant="plain"
+            color="black"
           ></v-btn>
         </template>
 
@@ -83,7 +90,7 @@ export default {
           </v-card>
         </template>
       </v-dialog>
-      <v-btn icon="mdi-account" href="/workspace/userinfo"></v-btn>
+      <v-btn icon="mdi-account" variant="plain" href="/workspace/userinfo" color="black"></v-btn>
     </template>
     <!--    </v-container>-->
   </v-app-bar>
