@@ -8,6 +8,7 @@ import (
 	"log"
 	"server/auth"
 	"server/config"
+	"server/translation"
 )
 
 var c *config.Config
@@ -16,7 +17,12 @@ func main() {
 	c = config.ReadConfig()
 	initCookieStore(c.Auth.SessionKey)
 	initDB()
-	fmt.Println(c.Db.Port, c.Auth.SessionKey)
+	translation.InitTranslation(c.Translation.Appid, c.Translation.Key)
+	_, err := translation.Translate(translation.ZH, translation.EN, "你好，世界")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(c.Translation.Appid, c.Translation.Key)
 
 }
 
@@ -28,7 +34,6 @@ func initCookieStore(sessionKey string) {
 func ConnectionDriverAndPath(address, port, dbName, username, password string) (driverName string, connectionPath string) {
 	sqlConnectionPath := username + ":" + password + "@(" + address + ":" + port + ")/" + dbName + "?parseTime=true&interpolateParams=true"
 	driverName = "mysql"
-
 	return driverName, sqlConnectionPath
 
 }
