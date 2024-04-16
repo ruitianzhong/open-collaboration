@@ -1,4 +1,6 @@
 <script xmlns="http://www.w3.org/1999/html">
+import router from "@/router";
+
 export default {
   name: "DocsList",
   data() {
@@ -32,6 +34,9 @@ export default {
       this.$router.push({
         path: `/workspace/docs/edit/${id}`
       })
+    },
+    add() {
+      router.push({path: "/workspace/docs/editor"})
     }
   }
 }
@@ -44,8 +49,8 @@ export default {
 
     <v-sheet>
       <v-btn-group class="text-lg-right mr-8 mt-4" style="display: flex;justify-content: flex-end">
-        <v-btn style="" prepend-icon="mdi-plus" href="/workspace/docs/editor" width="80" color="#07c360" height="35"
-               slim
+        <v-btn style="" prepend-icon="mdi-plus" width="80" color="#07c360" height="35"
+               slim @click="add"
                variant="flat" density="comfortable" text="添加"></v-btn>
       </v-btn-group>
 

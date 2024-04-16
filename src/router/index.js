@@ -31,7 +31,7 @@ const routes = [
       {
         path: "",
         name: "WorkspaceHome",
-        component: () => import("@/views/Home.vue")
+        component: () => import("@/views/WorkspaceHome.vue")
       },
       {
         path: "userinfo",

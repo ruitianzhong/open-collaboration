@@ -26,6 +26,18 @@ CREATE TABLE post
     FOREIGN KEY (user_group) references user_group (id)
 );
 
+CREATE TABLE files
+(
+    user_group   bigint      NOT NULL,
+    uploader     bigint      NOT NULL,
+    filename     varchar(30) NOT NULL,
+    uploadedTime int         NOT NULL,
+    primary key (user_group, filename),
+    foreign key (user_group) references user_group (id),
+    foreign key (uploader) references user (id)
+);
+
+
 INSERT INTO user_group (id)
 VALUES (1);
 

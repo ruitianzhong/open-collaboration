@@ -38,6 +38,7 @@ func main() {
 	r.HandleFunc("/auth/login", auth.Login).Methods(http.MethodPost)
 	r.HandleFunc("/api/translate", translation.Serve).Methods(http.MethodPost)
 	r.HandleFunc("/chat/refresh", chat.RefreshToken).Methods(http.MethodPost)
+	r.HandleFunc("/files/upload", storage.UploadFile).Methods(http.MethodPost)
 	r.Use(auth.AuthMiddleware)
 	err := http.ListenAndServe(":"+c.Port, r)
 	if err != nil {
