@@ -7,7 +7,9 @@ import (
 	"github.com/gorilla/sessions"
 	"log"
 	"server/auth"
+	"server/chat"
 	"server/config"
+	"server/storage"
 	"server/translation"
 )
 
@@ -18,12 +20,17 @@ func main() {
 	initCookieStore(c.Auth.SessionKey)
 	initDB()
 	translation.InitTranslation(c.Translation.Appid, c.Translation.Key)
-	_, err := translation.Translate(translation.ZH, translation.EN, "你好，世界")
-	if err != nil {
-		fmt.Println(err)
-	}
+	storage.InitStorage(c.Storage.SecretId, c.Storage.SecretKey, c.Storage.BucketPath)
+	//_, err := translation.Translate(translation.ZH, translation.EN, "你好，世界")
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
 	fmt.Println(c.Translation.Appid, c.Translation.Key)
-
+	//storage.Store()
+	//storage.Load()
+	//storage.Delete()
+	chat.Init(c.Chat.AppId, c.Chat.Key, c.Chat.AdminId)
+	chat.AddUserAccount()
 }
 
 func initCookieStore(sessionKey string) {

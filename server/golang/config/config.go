@@ -11,6 +11,8 @@ type Config struct {
 	Db          *Db          `yaml:"db"`
 	Auth        *Auth        `yaml:"auth"`
 	Translation *Translation `yaml:"translation"`
+	Storage     *Storage     `yaml:"storage"`
+	Chat        *Chat        `yaml:"chat"`
 }
 
 type Translation struct {
@@ -28,6 +30,18 @@ type Db struct {
 
 type Auth struct {
 	SessionKey string `yaml:"sessionKey"`
+}
+
+type Storage struct {
+	SecretId   string `yaml:"secretId"`
+	SecretKey  string `yaml:"secretKey"`
+	BucketPath string `yaml:"bucketPath"`
+}
+
+type Chat struct {
+	Key     string `yaml:"key"`
+	AppId   string `yaml:"appid"`
+	AdminId string `yaml:"adminId"`
 }
 
 func ReadConfig() *Config {
