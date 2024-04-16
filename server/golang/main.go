@@ -4,8 +4,10 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"log"
+	"net/http"
 	"server/auth"
 	"server/chat"
 	"server/config"
@@ -30,7 +32,17 @@ func main() {
 	//storage.Load()
 	//storage.Delete()
 	chat.Init(c.Chat.AppId, c.Chat.Key, c.Chat.AdminId)
-	chat.AddUserAccount()
+	//chat.AddUserAccount()
+
+	r := mux.NewRouter()
+	r.HandleFunc("/auth/login", auth.Login).Methods(http.MethodPost)
+	r.HandleFunc("/api/translate", translation.Serve).Methods(http.MethodPost)
+	r.HandleFunc("/chat/refresh", chat.RefreshToken).Methods(http.MethodPost)
+	r.Use(auth.AuthMiddleware)
+	err := http.ListenAndServe(":"+c.Port, r)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 }
 
 func initCookieStore(sessionKey string) {
@@ -61,4 +73,7 @@ func initDB() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	auth.InitDB(DB)
+	chat.InitDB(DB)
+	storage.InitDB(DB)
 }

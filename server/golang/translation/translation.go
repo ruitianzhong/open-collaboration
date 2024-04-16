@@ -2,7 +2,7 @@ package translation
 
 import (
 	"encoding/json"
-	"fmt"
+	"github.com/gorilla/schema"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -37,12 +37,13 @@ func InitTranslation(appid, key string) {
 type language string
 
 const (
-	ZH  = language("zh")
-	YUE = language("yue")
-	EN  = language("en")
+	ZH   = language("zh")
+	YUE  = language("yue")
+	EN   = language("en")
+	AUTO = language("auto")
 )
 
-func Translate(from, to language, query string) (string, error) {
+func Translate(from, to language, query string) (*Response, error) {
 	dataUrl := url.Values{}
 
 	salt := generateSecureRandom()
@@ -58,18 +59,60 @@ func Translate(from, to language, query string) (string, error) {
 	client := http.Client{}
 	resp, err := client.Do(request)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	respBytes, err := ioutil.ReadAll(resp.Body)
 
 	response := Response{}
 	err = json.Unmarshal(respBytes, &response)
-	fmt.Println(string(respBytes))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
+	return &response, nil
+}
 
-	fmt.Printf("%v\n", response)
+type TranslateRequest struct {
+	Source string `schema:"source,required"`
+	Target string `schema:"target,required"`
+}
 
-	return "", nil
+type TranslateResponse struct {
+	Dst string `json:"dst"`
+}
+
+func Serve(w http.ResponseWriter, r *http.Request) {
+	decoder := schema.NewDecoder()
+	err := r.ParseForm()
+	if err != nil {
+		HandleError(err, w, http.StatusBadRequest)
+		return
+	}
+	var tr TranslateRequest
+	err = decoder.Decode(&tr, r.PostForm)
+	if err != nil {
+		HandleError(err, w, http.StatusBadRequest)
+		return
+	}
+	target := language(tr.Target)
+	switch target {
+	case EN:
+	case ZH:
+	case YUE:
+		break
+	default:
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	resp, err := Translate(AUTO, target, tr.Source)
+	if err != nil {
+		HandleError(err, w, http.StatusBadRequest)
+		return
+	}
+	translateResp := TranslateResponse{}
+	s := ""
+	for _, v := range resp.Result {
+		s += v.Dst
+	}
+	translateResp.Dst = s
+	WriteJson(w, translateResp)
 }

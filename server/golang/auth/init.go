@@ -10,7 +10,7 @@ var (
 	DB *sql.DB
 )
 
-func SqlInit(db *sql.DB) {
+func InitDB(db *sql.DB) {
 	DB = db
 
 }

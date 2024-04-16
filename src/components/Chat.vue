@@ -18,11 +18,13 @@
 import {ref} from "vue";
 import {TUIStore, StoreName, TUIConversationService} from "@tencentcloud/chat-uikit-engine";
 import {TUICallKit} from "@tencentcloud/call-uikit-vue";
-import {TUIChat} from "@/TUIKit";
+import {genTestUserSig, TUIChat} from "@/TUIKit";
 import {isH5} from "@/TUIKit/utils/env";
 
-const currentConversationID = ref<string>("");
 const userID = "root";
+
+const currentConversationID = ref<string>("");
+
 const groupID = "group1";
 TUIStore.watch(StoreName.CONV, {
   currentConversationID: (id: string) => {

@@ -1,6 +1,7 @@
 <template>
   <div class="fill-height">
-    <v-btn variant="plain"  href="/workspace/docs" icon="mdi-chevron-left" class="mb-2 ml-2 mt-1" size="40" color="black"></v-btn>
+    <v-btn variant="plain" @click="onBack" icon="mdi-chevron-left" class="mb-2 ml-2 mt-1" size="40"
+           color="black"></v-btn>
     <md-editor class="" v-model="text" :toolbars-exclude="toolbars" @onSave="onSave" @onChange="onChange"
                @onUploadImg="onUploadImg" no-upload-img/>
   </div>
@@ -27,6 +28,15 @@ export default defineComponent({
   },
   methods: {
     onChange(val) {
+    },
+    onBack() {
+      if (window.history.length <= 1) {
+        this.$router.push({path: '/workspace/docs'})
+        return false
+      } else {
+        this.$router.go(-1)
+      }
+
     },
     onUploadImg(files) {
       console.log(Array.from(files));

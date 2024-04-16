@@ -27,19 +27,6 @@ const userID = "root";
 registerPlugins(app)
 TUIChatKit.components(TUIComponents, app);
 TUIChatKit.init();
-TUILogin.login(
-  {
-    SDKAppID,
-    userID,
-    userSig: genTestUserSig({
-      SDKAppID,
-      secretKey,
-      userID
-    }).userSig,
-    useUploadPlugin: true,
-    framework: "vue3"
-  }
-)
 
 app.use(Antd).use(VueMathjax).mount('#app')
 export {SDKAppID, secretKey}

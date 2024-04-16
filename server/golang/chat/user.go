@@ -4,11 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/schema"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
+	"time"
 )
 import "github.com/tencentyun/tls-sig-api-v2-golang/tencentyun"
 
@@ -73,4 +75,50 @@ func AddUserAccount() error {
 	fmt.Println(param)
 	return nil
 
+}
+
+type RefreshRequest struct {
+	Sig string `schema:"sig,required"`
+}
+
+type RefreshResponse struct {
+	Ok  bool   `json:"ok"`
+	Sig string `json:"sig"`
+}
+
+func RefreshToken(w http.ResponseWriter, r *http.Request) {
+	id := w.Header().Get("X_USER_ID")
+	if id == "" {
+		return
+	}
+	w.Header().Del("X_USER_ID")
+
+	err := r.ParseForm()
+
+	if err != nil {
+		HandleError(err, w, http.StatusBadRequest)
+		return
+	}
+
+	d := schema.NewDecoder()
+	refreshRequest := RefreshRequest{}
+	err = d.Decode(&refreshRequest, r.PostForm)
+	if err != nil {
+		HandleError(err, w, http.StatusBadRequest)
+		return
+	}
+
+	err = tencentyun.VerifyUserSig(uint64(appid), key, id, refreshRequest.Sig, time.Now())
+	var resp RefreshResponse
+	if err != nil {
+		sig, err := tencentyun.GenUserSig(appid, key, id, 7*24*60*60)
+		if err != nil {
+			HandleError(err, w, http.StatusBadRequest)
+			return
+		}
+		resp.Sig = sig
+	} else {
+		resp.Ok = true
+	}
+	WriteJson(w, resp)
 }

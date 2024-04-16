@@ -12,6 +12,7 @@
     "@ant-design/icons-vue": "^7.0.1",
     "@mdi/font": "7.0.96",
     "@tencentcloud/chat-uikit-vue": "^2.0.8",
+    "@tencentcloud/tui-core": "^2.1.0",
     "ant-design-vue": "^4.1.2",
     "core-js": "^3.29.0",
     "mathjax": "^3.2.2",
