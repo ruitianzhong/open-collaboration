@@ -28,7 +28,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	db := DB
-	s := "SELECT password from user where id=?"
+	s := "SELECT password from user where user_id=?"
 	lr := LoginResponse{}
 	var passwd string
 	if err = db.QueryRow(s, lf.UserId).Scan(&passwd); err != nil || passwd != lf.Password {

@@ -39,6 +39,9 @@ func main() {
 	r.HandleFunc("/api/translate", translation.Serve).Methods(http.MethodPost)
 	r.HandleFunc("/chat/refresh", chat.RefreshToken).Methods(http.MethodPost)
 	r.HandleFunc("/files/upload", storage.UploadFile).Methods(http.MethodPost)
+	r.HandleFunc("/files/delete", storage.DeleteFile).Methods(http.MethodPost)
+	r.HandleFunc("/files/download", storage.DownloadFile).Methods(http.MethodGet)
+	r.HandleFunc("/files/list", storage.ListFiles).Methods(http.MethodGet)
 	r.Use(auth.AuthMiddleware)
 	err := http.ListenAndServe(":"+c.Port, r)
 	if err != nil {

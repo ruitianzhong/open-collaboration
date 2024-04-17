@@ -1,9 +1,25 @@
 <template>
+  <!--  <v-btn variant="plain" @click="onBack" icon="mdi-chevron-left" class=" ml-2 mt-1" size="40"-->
+  <!--         color="black"></v-btn>-->
+<!--  <v-container class="d-flex align-center justify-center">-->
+    <v-row class="mt-2 ml-2">
+      <v-col cols="auto">
+        <a-button>返回</a-button>
+        <!--  <v-btn variant="plain" @click="onBack" icon="mdi-chevron-left" class=" ml-2 mt-1" size="40"-->
+        <!--         color="black"></v-btn>-->
+      </v-col>
+      <v-col cols="auto">
+        <a-form-item label="标题">
+          <a-input v-model:value="value" placeholder="Basic usage"/>
+        </a-form-item>
+      </v-col>
+    </v-row>
+<!--  </v-container>-->
   <div class="fill-height">
-    <v-btn variant="plain" @click="onBack" icon="mdi-chevron-left" class="mb-2 ml-2 mt-1" size="40"
-           color="black"></v-btn>
-    <md-editor class="" v-model="text" :toolbars-exclude="toolbars" @onSave="onSave" @onChange="onChange"
+
+    <md-editor class="mt-0" v-model="text" :toolbars-exclude="toolbars" @onSave="onSave" @onChange="onChange"
                @onUploadImg="onUploadImg" no-upload-img/>
+
   </div>
 </template>
 
@@ -24,6 +40,7 @@ export default defineComponent({
       toolbars: ["github", "htmlPreview"],
       id: "",
       newDocs: false,
+      value: ""
     };
   },
   methods: {

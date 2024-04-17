@@ -1,17 +1,17 @@
 CREATE TABLE user_group
 (
-    id bigint primary key
+    group_id varchar(20) primary key
 );
 
 CREATE TABLE user
 (
-    id         bigint primary key auto_increment,
-    username   varchar(30) NOT NULL,
-    user_group bigint      NOT NULL,
-    email      varchar(30),
-    phone      varchar(20),
-    password   varchar(30) NOT NULL,
-    FOREIGN KEY (user_group) references user_group (id)
+    user_id  varchar(20) primary key,
+    username varchar(30) NOT NULL,
+    group_id varchar(20) NOT NULL,
+    email    varchar(30),
+    phone    varchar(20),
+    password varchar(30) NOT NULL,
+    FOREIGN KEY (group_id) references user_group (group_id)
 );
 
 CREATE TABLE post
@@ -26,21 +26,11 @@ CREATE TABLE post
     FOREIGN KEY (user_group) references user_group (id)
 );
 
-CREATE TABLE files
-(
-    user_group   bigint      NOT NULL,
-    uploader     bigint      NOT NULL,
-    filename     varchar(30) NOT NULL,
-    uploadedTime int         NOT NULL,
-    primary key (user_group, filename),
-    foreign key (user_group) references user_group (id),
-    foreign key (uploader) references user (id)
-);
 
 
-INSERT INTO user_group (id)
-VALUES (1);
+INSERT INTO user_group (group_id)
+VALUES ("1");
 
-INSERT INTO user (username, user_group, email, phone, password)
-VALUES ("test", 1, "test@example.com", "12345678", "123456");
+INSERT INTO user (username, group_id, email, phone, password, user_id)
+VALUES ("test", "1", "test@example.com", "12345678", "123456", "1");
 

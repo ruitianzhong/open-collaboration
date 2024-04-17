@@ -27,8 +27,5 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			} else {
 				next.ServeHTTP(w, r)
 			}
-
-			next.ServeHTTP(w, r)
-
 		})
 }
