@@ -3,11 +3,21 @@ import Translation from "@/components/Translation.vue";
 import Formula from "@/components/Formula.vue";
 import Chat from "@/components/Chat.vue";
 import router from "@/router";
+import {fetchUserInfo, logout} from "@/api/api";
 
 export default {
   components: {Chat, Formula, Translation},
   data() {
     return {}
+  },
+  mounted() {
+    fetchUserInfo().then(response => {
+      const {data} = response
+      console.log(data)
+    }).catch(error => {
+      console.log(error)
+    })
+
   },
   methods: {
     onClick(path) {
@@ -15,6 +25,19 @@ export default {
         path,
         replace: false
       })
+    },
+    onLogout() {
+      logout({}).then(
+        response => {
+          const {status} = response
+          console.log(response)
+          if (status == 200) {
+
+            router.replace({path: "/"})
+          }
+        }
+      )
+
     }
   }
 }
@@ -100,6 +123,7 @@ export default {
         </template>
       </v-dialog>
       <v-btn icon="mdi-account" variant="plain" @click="onClick('/workspace/userinfo')" color="black"></v-btn>
+      <v-btn icon="mdi-exit-to-app" alt="exit" variant="plain" @click="onLogout" color="primary"></v-btn>
     </template>
     <!--    </v-container>-->
   </v-app-bar>

@@ -14,7 +14,7 @@ import 'ant-design-vue/dist/reset.css';
 
 
 // Composables
-import {createApp} from 'vue'
+import {createApp, reactive} from 'vue'
 import VueMathjax from 'vue-mathjax-next'
 import {TUIComponents, TUIChatKit, genTestUserSig} from "./TUIKit";
 import {TUILogin} from "@tencentcloud/tui-core";
@@ -30,3 +30,7 @@ TUIChatKit.init();
 
 app.use(Antd).use(VueMathjax).mount('#app')
 export {SDKAppID, secretKey}
+export const state = reactive({
+  user_id: '',
+  group_id: ''
+})

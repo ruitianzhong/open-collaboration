@@ -47,6 +47,8 @@ func main() {
 	r.HandleFunc("/docs/new", storage.AddNewDocs).Methods(http.MethodPost)
 	r.HandleFunc("/docs/delete", storage.DeleteDocs).Methods(http.MethodPost)
 	r.HandleFunc("/docs/byid", storage.GetDocById).Methods(http.MethodGet)
+	r.HandleFunc("/auth/logout", auth.Logout).Methods(http.MethodPost)
+	r.HandleFunc("/auth/fetch-user-info", auth.FetchUserInfo).Methods(http.MethodGet)
 	r.Use(auth.AuthMiddleware)
 	err := http.ListenAndServe(":"+c.Port, r)
 	if err != nil {

@@ -8,7 +8,7 @@ import (
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
-			if r.URL.Path != "/auth/login" && r.URL.Path != "/api/user/check-if-login" {
+			if r.URL.Path != "/auth/login" && r.URL.Path != "/auth/fetch-user-info" {
 				w.Header().Del("X_USER_ID")
 
 				session, _ := store.Get(r, "dm-session")
