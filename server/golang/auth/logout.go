@@ -8,6 +8,10 @@ import (
 func Logout(w http.ResponseWriter, r *http.Request) {
 	session, _ := store.Get(r, "dm-session")
 	session.Values["authenticated"] = false
+	if err := session.Save(r, w); err != nil {
+		HandleError(err, w, http.StatusInternalServerError)
+		return
+	}
 	w.WriteHeader(http.StatusOK)
 }
 

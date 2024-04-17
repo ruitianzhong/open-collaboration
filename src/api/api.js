@@ -21,12 +21,15 @@ export const logout = (form) => {
   })
 }
 
-export const translate = (form) => {
+export const translateBaidu = (form) => {
   return axios.request(
     {
       url: "/api/translate",
       method: "post",
       data: form,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     }
   )
 }

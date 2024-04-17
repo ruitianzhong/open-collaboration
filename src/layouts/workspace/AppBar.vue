@@ -4,6 +4,7 @@ import Formula from "@/components/Formula.vue";
 import Chat from "@/components/Chat.vue";
 import router from "@/router";
 import {fetchUserInfo, logout} from "@/api/api";
+import {AppState} from "@/main";
 
 export default {
   components: {Chat, Formula, Translation},
@@ -14,8 +15,10 @@ export default {
     fetchUserInfo().then(response => {
       const {data} = response
       console.log(data)
+      AppState.group_id = data.groupId
+      AppState.user_id = data.userId
     }).catch(error => {
-      console.log(error)
+      router.replace({path: "/"})
     })
 
   },

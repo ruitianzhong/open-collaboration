@@ -30,7 +30,7 @@ TUIChatKit.init();
 
 app.use(Antd).use(VueMathjax).mount('#app')
 export {SDKAppID, secretKey}
-export const state = reactive({
+export const AppState = reactive({
   user_id: '',
   group_id: ''
 })

@@ -3,7 +3,11 @@
     <div class="TUIKit-main-container">
 
       <TUIChat v-show="!isH5 || currentConversationID">
-        <h1 class="text-center">欢迎使用在线沟通功能</h1>
+        <v-container class="align-center">
+          <a-result status="403" class="ml-10 " title="403" sub-title="Something wrong happened">
+
+          </a-result>
+        </v-container>
       </TUIChat>
       <TUICallKit
         class="callkit-container"
