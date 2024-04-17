@@ -42,6 +42,11 @@ func main() {
 	r.HandleFunc("/files/delete", storage.DeleteFile).Methods(http.MethodPost)
 	r.HandleFunc("/files/download", storage.DownloadFile).Methods(http.MethodGet)
 	r.HandleFunc("/files/list", storage.ListFiles).Methods(http.MethodGet)
+	r.HandleFunc("/docs/list", storage.ListDocs).Methods(http.MethodGet)
+	r.HandleFunc("/docs/update", storage.UpdateDocs).Methods(http.MethodPost)
+	r.HandleFunc("/docs/new", storage.AddNewDocs).Methods(http.MethodPost)
+	r.HandleFunc("/docs/delete", storage.DeleteDocs).Methods(http.MethodPost)
+	r.HandleFunc("/docs/byid", storage.GetDocById).Methods(http.MethodGet)
 	r.Use(auth.AuthMiddleware)
 	err := http.ListenAndServe(":"+c.Port, r)
 	if err != nil {

@@ -60,11 +60,11 @@ type FileMetaData struct {
 	Filename     string `json:"filename"`
 }
 
-func List(group string) ([]FileMetaData, error) {
+func List(prefix string) ([]FileMetaData, error) {
 	client := makeClient()
 	var f []FileMetaData
 	opt := &cos.BucketGetOptions{
-		Prefix:    "1/",
+		Prefix:    prefix + "/",
 		Delimiter: "/",
 		MaxKeys:   1000,
 	}
