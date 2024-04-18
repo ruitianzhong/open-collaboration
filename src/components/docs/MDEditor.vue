@@ -1,14 +1,9 @@
 <template>
-  <!--  <v-btn variant="plain" @click="onBack" icon="mdi-chevron-left" class=" ml-2 mt-1" size="40"-->
-  <!--         color="black"></v-btn>-->
-  <!--  <v-container class="d-flex align-center justify-center">-->
   <v-row class="mt-2 ml-2">
     <v-col cols="auto">
       <a-button @click="onBack">返回</a-button>
-      <!--  <v-btn variant="plain" @click="onBack" icon="mdi-chevron-left" class=" ml-2 mt-1" size="40"-->
-      <!--         color="black"></v-btn>-->
     </v-col>
-    <v-col cols="auto">
+    <v-col cols="4">
       <a-form-item label="标题">
         <a-input v-model:value="title" placeholder="文档标题"/>
       </a-form-item>
@@ -29,7 +24,8 @@ import {MdEditor} from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
 import {message} from 'ant-design-vue';
 import {AppState} from "@/main";
-import {newDocs} from "@/api/api";
+import {getDocs, newDocs, updateDocs} from "@/api/api";
+import qs from "qs";
 
 export default defineComponent({
   name: "App",
@@ -38,7 +34,7 @@ export default defineComponent({
   },
   data() {
     return {
-      text: "# 这是标题",
+      text: "",
       toolbars: ["github", "htmlPreview"],
       id: "",
       newDocs: false,
@@ -83,7 +79,7 @@ export default defineComponent({
                 this.id = data.id
                 this.newDocs = false
                 message.success({
-                  content: () => '创建并保存成功成功',
+                  content: () => '创建并保存成功',
                   style: {
                     marginTop: '0vh',
                   },
@@ -91,9 +87,20 @@ export default defineComponent({
               }
             }
           )
+        } else {
+          req.id = this.id
+          updateDocs(req).then(resp => {
+            const {data} = resp
+            if (data.ok) {
+              message.success({
+                content: () => '保存成功',
+                style: {
+                  marginTop: '0vh',
+                },
+              });
+            }
+          })
         }
-
-
       }
 
     }
@@ -102,6 +109,19 @@ export default defineComponent({
     this.id = this.$route.params.id
     if (this.id == undefined) {
       this.newDocs = true;
+    } else {
+      const query = {
+        id: this.id,
+        group: AppState.group_id,
+      }
+      getDocs(qs.stringify(query)).then(req => {
+        const {data} = req
+        if (data.ok) {
+          this.text = data.markdown
+          this.title = data.title
+        }
+      })
+
     }
     console.log(this.id)
   }

@@ -17,7 +17,6 @@ import {getDocs} from "@/api/api";
 import qs from "qs";
 import {AppState} from "@/main";
 
-
 export default defineComponent({
     name: "App",
     components: {

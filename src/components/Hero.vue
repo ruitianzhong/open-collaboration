@@ -9,7 +9,7 @@
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto" class="mr-10">
           <v-btn
-            href="/signup"
+            @click="$router.push({path:'/signup'})"
             min-width="200"
             variant="flat"
             color="#EDEDED"
@@ -26,7 +26,7 @@
         <v-col cols="auto">
           <v-btn
             color="#07c360"
-            href="/login"
+            @click="$router.push({path:'/login'})"
             min-width="200"
             size="x-large"
             variant="flat"

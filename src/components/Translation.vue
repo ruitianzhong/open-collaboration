@@ -51,7 +51,7 @@ export default {
 
 <template>
   <v-container>
-    <v-textarea label="源语言" v-model="source" variant="outlined">
+    <v-textarea color="primary" autofocus label="源语言" v-model="source" variant="outlined">
     </v-textarea>
 
     <v-textarea :label="'目标语言'+language" :model-value="target" readonly variant="outlined">

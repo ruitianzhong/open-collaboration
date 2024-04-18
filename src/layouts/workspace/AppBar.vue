@@ -35,10 +35,10 @@ export default {
 </script>
 <template>
   <v-app-bar flat elevation="1" density="comfortable">
-    <v-btn icon="mdi-cube" variant="plain" size="35" class="ml-3 mr-2" @click="onClick('/workspace')"
-           color="black"></v-btn>
+    <v-btn icon="mdi-cube" variant="text" size="35" class="ml-3 mr-2" @click="onClick('/workspace')"
+           color="green"></v-btn>
     <v-btn variant="plain" text="文档" density="comfortable" @click="onClick('/workspace/docs')" color="black"></v-btn>
-    <v-btn text="文件共享" variant="plain" density="default" color="black" @click="onClick('/workspace/files')"></v-btn>
+    <v-btn text="文件共享" variant="text" density="default" color="black" @click="onClick('/workspace/files')"></v-btn>
     <template v-slot:append>
       <v-divider vertical class="mr-2"></v-divider>
       <v-dialog max-width="500">
@@ -91,7 +91,6 @@ export default {
             color="black"
           ></v-btn>
         </template>
-
         <template v-slot:default="{ isActive }">
           <v-card title="Latex公式实时预览" prepend-icon="mdi-math-integral-box">
             <Formula></Formula>
@@ -108,7 +107,7 @@ export default {
         </template>
       </v-dialog>
       <v-btn icon="mdi-account" variant="plain" @click="onClick('/workspace/userinfo')" color="black"></v-btn>
-      <v-btn icon="mdi-exit-to-app" alt="exit" variant="plain" @click="onLogout" color="primary"></v-btn>
+      <v-btn icon="mdi-exit-to-app" alt="exit" variant="text" @click="onLogout" color="red"></v-btn>
     </template>
     <!--    </v-container>-->
   </v-app-bar>

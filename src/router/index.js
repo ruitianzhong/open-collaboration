@@ -1,8 +1,7 @@
 // Composables
 import {createRouter, createWebHistory} from 'vue-router'
 import {chatSignRefresh, fetchUserInfo} from "@/api/api";
-import {AppState, SDKAppID} from "@/main";
-import {TUILogin} from "@tencentcloud/tui-core";
+import {AppState} from "@/main";
 
 const routes = [
   {
@@ -78,7 +77,7 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to) => {
     if (to.name == "Home" || to.name == "Login" || to.name == "SignUp") {
       return
     }
@@ -88,8 +87,7 @@ router.beforeEach(async (to, from) => {
         console.log(data)
         AppState.group_id = data.groupId
         AppState.user_id = data.userId
-        return data
-      }).then(data => {
+      }).then(() => {
         const request = {sig: AppState.sign_key}
         chatSignRefresh(request).then(
           response => {
@@ -101,6 +99,7 @@ router.beforeEach(async (to, from) => {
         )
       }).catch(error => {
         router.replace({path: "/"})
+        console.log(error)
       })
     }
 

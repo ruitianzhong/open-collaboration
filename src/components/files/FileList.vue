@@ -88,6 +88,7 @@ import {AppState} from "@/main";
 import {deleteFiles, listFiles} from "@/api/api";
 import qs from "qs";
 import dayjs from "dayjs";
+import {message} from "ant-design-vue";
 
 const fileList = ref([]);
 
@@ -118,9 +119,13 @@ const onDelete = filename => {
     group: AppState.group_id,
     filename: filename
   }
-  deleteFiles(req)
-  refresh()
-
+  deleteFiles(req).then(() => {
+    refresh()
+    message.success({
+      content: () => '已删除 ' + filename,
+      style: {},
+    });
+  })
 }
 
 const uploadPath = () => {
@@ -162,7 +167,11 @@ function refresh() {
         for (let dataKey in data.files) {
           data.files[dataKey].lastModified = dayjs(data.files[dataKey].lastModified).format("YYYY-MM-DD HH:mm:ss")
         }
-        files.value = data.files
+        if (data.files != null) {
+          files.value = data.files
+        } else {
+          files.value = []
+        }
       }
     }
   )
