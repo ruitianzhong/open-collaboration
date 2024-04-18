@@ -14,11 +14,13 @@
       <template v-slot:default="{ isActive }">
         <v-card title="上传文件" prepend-icon="mdi-upload">
           <v-container>
+
             <a-upload-dragger
               v-model:fileList="fileList"
               name="file"
               :multiple="false"
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              :max-count="1"
+              :action="uploadPath()"
               @change="handleChange"
               @drop="handleDrop"
             >
@@ -30,16 +32,22 @@
                 请勿上传过大文件
               </p>
             </a-upload-dragger>
+            <v-snackbar
+              timeout="2000"
+              color="#EDEDED"
+              variant="flat"
+              v-model="snackbar"
+              class="align-center"
+            >
+              <v-icon icon="mdi-check"></v-icon>
+              成功上传文件 <strong>{{ text }}</strong>
+            </v-snackbar>
           </v-container>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
-              text="取消"
-              @click="isActive.value = false"
-            ></v-btn>
-            <v-btn
-              text="确认" color="#07c360"
-              @click="isActive.value = false"
+              text="完成" color="#07c360"
+              @click="onFinished(isActive)"
             ></v-btn>
           </v-card-actions>
         </v-card>
@@ -67,7 +75,7 @@
           <a :href=" '/files/download?' + qs.stringify({
     filename: record.filename,group: AppState.group_id,})">下载 </a>
           <a-divider type="vertical"/>
-          <a>删除</a>
+          <a @click="onDelete(record.filename)">删除</a>
         </span>
         </template>
       </template>
@@ -75,34 +83,58 @@
   </v-container>
 </template>
 <script setup>
-import {computed, onMounted, ref} from 'vue';
-import {message} from 'ant-design-vue';
+import {onMounted, ref} from 'vue';
 import {AppState} from "@/main";
-import {listFiles} from "@/api/api";
+import {deleteFiles, listFiles} from "@/api/api";
 import qs from "qs";
 import dayjs from "dayjs";
 
 const fileList = ref([]);
 
 let files = ref([])
-
+let snackbar = ref(false)
 const handleChange = info => {
   const status = info.file.status;
   if (status !== 'uploading') {
     console.log(info.file, info.fileList);
   }
   if (status === 'done') {
-    message.success(`${info.file.name} file uploaded successfully.`);
+    text.value = info.file.name
+    snackbar.value = true
   } else if (status === 'error') {
-    message.error(`${info.file.name} file upload failed.`);
+
   }
 };
+const text = ref('')
+
+const onFinished = isActive => {
+  refresh()
+  isActive.value = false
+  fileList.value = []
+}
+
+const onDelete = filename => {
+  const req = {
+    group: AppState.group_id,
+    filename: filename
+  }
+  deleteFiles(req)
+  refresh()
+
+}
+
+const uploadPath = () => {
+  const req = {
+    groupId: AppState.group_id,
+  }
+
+  return "/files/upload?" + qs.stringify(req)
+}
 
 onMounted(() => {
     const req = {
       group: AppState.group_id
     }
-    console.log(AppState.sign_key)
     listFiles(qs.stringify(req)).then(
       response => {
         const {data} = response
@@ -117,6 +149,24 @@ onMounted(() => {
     )
   }
 )
+
+function refresh() {
+  const req = {
+    group: AppState.group_id
+  }
+  listFiles(qs.stringify(req)).then(
+    response => {
+      const {data} = response
+      if (data.ok) {
+
+        for (let dataKey in data.files) {
+          data.files[dataKey].lastModified = dayjs(data.files[dataKey].lastModified).format("YYYY-MM-DD HH:mm:ss")
+        }
+        files.value = data.files
+      }
+    }
+  )
+}
 
 function handleDrop(e) {
   console.log(e);

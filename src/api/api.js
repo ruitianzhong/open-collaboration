@@ -47,15 +47,6 @@ export const chatSignRefresh = (form) => {
   )
 }
 
-export const uploadFiles = (form) => {
-  return axios.request(
-    {
-      url: "/files/upload",
-      method: "post",
-      data: form,
-    }
-  )
-}
 
 export const deleteFiles = (form) => {
   return axios.request(
@@ -63,15 +54,9 @@ export const deleteFiles = (form) => {
       url: "/files/delete",
       method: "post",
       data: form,
-    }
-  )
-}
-
-export const downloadFiles = (query) => {
-  return axios.request(
-    {
-      url: "/files/download?" + query,
-      method: "get",
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     }
   )
 }
@@ -137,4 +122,11 @@ export const fetchUserInfo = () => {
   )
 }
 
-
+export const getDocs = (query) => {
+  return axios.request(
+    {
+      url: "/docs/byid?" + query,
+      method: "get",
+    }
+  )
+}

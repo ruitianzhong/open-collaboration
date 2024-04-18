@@ -23,6 +23,7 @@ type DocsResponse struct {
 	Id       string `json:"id"`
 	Ok       bool   `json:"ok"`
 	Markdown string `json:"markdown"`
+	Title    string `json:"title"`
 }
 
 var (
@@ -84,7 +85,7 @@ func AddNewDocs(w http.ResponseWriter, r *http.Request) {
 	header := &http.Header{}
 	header.Set(COSTitle, adr.Title)
 	header.Set(COSAuthor, user)
-	header.Set(COSCreateTime, time.Now().String())
+	header.Set(COSCreateTime, time.Now().Format("2006-01-02 15:01:05"))
 	header.Set(COSMetaGroup, adr.Group)
 	err = Store(strings.NewReader(adr.Markdown), genDocsPath(strconv.FormatInt(next, 10), adr.Group, user), header)
 
@@ -268,7 +269,6 @@ func GetDocById(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		HandleError(err, w, http.StatusNotFound)
 		return
-
 	}
 	var docsResponse DocsResponse
 	b, err := ioutil.ReadAll(resp.Body)
@@ -277,6 +277,7 @@ func GetDocById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	docsResponse.Markdown = string(b)
+	docsResponse.Title = resp.Header.Get(COSTitle)
 	docsResponse.Ok = true
 	WriteJson(w, docsResponse)
 }

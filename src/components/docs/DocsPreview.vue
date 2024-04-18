@@ -5,15 +5,17 @@
       <MdPreview :model-value="text">
       </MdPreview>
     </v-sheet>
-
   </v-container>
-
 </template>
 
 <script>
 import {defineComponent} from "vue";
 import {MdPreview} from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
+import router from "@/router";
+import {getDocs} from "@/api/api";
+import qs from "qs";
+import {AppState} from "@/main";
 
 
 export default defineComponent({
@@ -24,7 +26,7 @@ export default defineComponent({
     data() {
       return {
         id: "",
-        text: "# 这是标题 \r\n # heading 2 \r\n## heading 3\r\n```bash \r\n echo hello world\r\n```",
+        text: "",
         toolbars: ["github", "htmlPreview"],
       };
     },
@@ -38,10 +40,27 @@ export default defineComponent({
         }
 
       },
-      mounted() {
-        this.id = this.$route.params.id
-      }
+    },
+    mounted() {
+      this.id = this.$route.params.id
+      if (this.id == undefined) {
+        router.replace({path: '/workspace/docs'})
+      } else {
+        const query = {
+          id: this.id,
+          group: AppState.group_id,
+        }
+        getDocs(qs.stringify(query)).then(req => {
+          const {data} = req
+          if (data.ok) {
+            this.text = data.markdown
+          }
+        })
 
+      }
+    },
+    unmounted() {
+      this.text = ""
     }
   }
 );

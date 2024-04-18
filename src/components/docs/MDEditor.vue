@@ -10,7 +10,7 @@
     </v-col>
     <v-col cols="auto">
       <a-form-item label="标题">
-        <a-input v-model:value="value" placeholder="Basic usage"/>
+        <a-input v-model:value="title" placeholder="文档标题"/>
       </a-form-item>
     </v-col>
   </v-row>
@@ -28,6 +28,8 @@ import {defineComponent} from "vue";
 import {MdEditor} from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
 import {message} from 'ant-design-vue';
+import {AppState} from "@/main";
+import {newDocs} from "@/api/api";
 
 export default defineComponent({
   name: "App",
@@ -40,7 +42,7 @@ export default defineComponent({
       toolbars: ["github", "htmlPreview"],
       id: "",
       newDocs: false,
-      value: ""
+      title: "",
     };
   },
   methods: {
@@ -60,12 +62,40 @@ export default defineComponent({
     },
     onSave(value, html) {
       console.log(value)
-      message.success({
-        content: () => '保存成功',
-        style: {
-          marginTop: '0vh',
-        },
-      });
+      if (this.title == "") {
+        message.error({
+          content: () => '请填写标题',
+          style: {
+            marginTop: '0vh',
+          }
+        })
+      } else {
+        const req = {
+          markdown: value,
+          group: AppState.group_id,
+          title: this.title
+        }
+        if (this.newDocs) {
+          newDocs(req).then(
+            resp => {
+              const {data} = resp
+              if (data.ok) {
+                this.id = data.id
+                this.newDocs = false
+                message.success({
+                  content: () => '创建并保存成功成功',
+                  style: {
+                    marginTop: '0vh',
+                  },
+                });
+              }
+            }
+          )
+        }
+
+
+      }
+
     }
   },
   mounted() {
@@ -73,6 +103,7 @@ export default defineComponent({
     if (this.id == undefined) {
       this.newDocs = true;
     }
+    console.log(this.id)
   }
 });
 </script>
