@@ -4,7 +4,8 @@
 
       <TUIChat v-show="!isH5 || currentConversationID">
         <v-container class="align-center">
-          <a-result status="403" class="ml-10 " title="403" sub-title="Something wrong happened">
+          <v-spacer></v-spacer>
+          <a-result status="404" class="ml-8 mt-12" title="服务暂时不可用" sub-title="请刷新重试或联系网站管理员">
 
           </a-result>
         </v-container>

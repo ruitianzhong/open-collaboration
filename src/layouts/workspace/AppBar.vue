@@ -3,24 +3,12 @@ import Translation from "@/components/Translation.vue";
 import Formula from "@/components/Formula.vue";
 import Chat from "@/components/Chat.vue";
 import router from "@/router";
-import {fetchUserInfo, logout} from "@/api/api";
-import {AppState} from "@/main";
+import {logout} from "@/api/api";
 
 export default {
   components: {Chat, Formula, Translation},
   data() {
     return {}
-  },
-  mounted() {
-    fetchUserInfo().then(response => {
-      const {data} = response
-      console.log(data)
-      AppState.group_id = data.groupId
-      AppState.user_id = data.userId
-    }).catch(error => {
-      router.replace({path: "/"})
-    })
-
   },
   methods: {
     onClick(path) {
@@ -64,7 +52,7 @@ export default {
         </template>
 
         <template v-slot:default="{ isActive }">
-          <v-card title="中英翻译" prepend-icon="mdi-translate">
+          <v-card title="翻译" prepend-icon="mdi-translate">
             <Translation></Translation>
 
             <v-card-actions>
@@ -80,7 +68,6 @@ export default {
         </template>
       </v-dialog>
 
-
       <v-dialog max-width="1000">
         <template v-slot:activator="{ props: activatorProps }">
           <v-btn
@@ -90,14 +77,9 @@ export default {
             color="black"
           ></v-btn>
         </template>
-
         <template v-slot:default="{ isActive }">
-
           <Chat></Chat>
-
           <v-spacer></v-spacer>
-
-
         </template>
       </v-dialog>
       <v-dialog max-width="500">

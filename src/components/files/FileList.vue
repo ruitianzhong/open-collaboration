@@ -11,7 +11,6 @@
         ></v-btn>
       </template>
 
-
       <template v-slot:default="{ isActive }">
         <v-card title="上传文件" prepend-icon="mdi-upload">
           <v-container>
@@ -48,7 +47,7 @@
     </v-dialog>
 
 
-    <a-table :columns="columns" :data-source="data">
+    <a-table :columns="columns" :data-source="files">
       <template #headerCell="{ column }">
         <template v-if="column.key === 'filename'">
         <span>
@@ -65,23 +64,28 @@
 
         <template v-else-if="column.key === 'action'">
         <span>
-          <a>下载 </a>
+          <a :href=" '/files/download?' + qs.stringify({
+    filename: record.filename,group: AppState.group_id,})">下载 </a>
           <a-divider type="vertical"/>
           <a>删除</a>
         </span>
         </template>
       </template>
     </a-table>
-
-
   </v-container>
 </template>
 <script setup>
-import {ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {message} from 'ant-design-vue';
-import Translation from "@/components/Translation.vue";
+import {AppState} from "@/main";
+import {listFiles} from "@/api/api";
+import qs from "qs";
+import dayjs from "dayjs";
 
 const fileList = ref([]);
+
+let files = ref([])
+
 const handleChange = info => {
   const status = info.file.status;
   if (status !== 'uploading') {
@@ -93,6 +97,26 @@ const handleChange = info => {
     message.error(`${info.file.name} file upload failed.`);
   }
 };
+
+onMounted(() => {
+    const req = {
+      group: AppState.group_id
+    }
+    console.log(AppState.sign_key)
+    listFiles(qs.stringify(req)).then(
+      response => {
+        const {data} = response
+        if (data.ok) {
+
+          for (let dataKey in data.files) {
+            data.files[dataKey].lastModified = dayjs(data.files[dataKey].lastModified).format("YYYY-MM-DD HH:mm:ss")
+          }
+          files.value = data.files
+        }
+      }
+    )
+  }
+)
 
 function handleDrop(e) {
   console.log(e);
@@ -107,7 +131,7 @@ const columns = [
   },
   {
     title: '上传时间',
-    dataIndex: 'uploadedTime',
+    dataIndex: 'lastModified',
     key: 'uploadedTime',
   },
   {
@@ -116,31 +140,12 @@ const columns = [
     key: 'uploader',
   },
   {
-
+    title: "大小（字节）",
+    key: "size",
+    dataIndex: 'size',
+  },
+  {
     key: 'action',
-  },
-];
-const data = [
-  {
-    key: '1',
-    filename: "hello.c",
-    uploader: "Tim Zhang",
-    uploadedTime: "2024-03-18",
-    id: "xyz",
-  },
-  {
-    key: '2',
-    filename: "hello.go",
-    uploader: "Allen",
-    uploadedTime: "2024-03-18",
-    id: "xyz123",
-  },
-  {
-    key: '3',
-    filename: "print.xlsx",
-    uploader: "Tim Zhang",
-    uploadedTime: "2024-03-18",
-    id: "abc",
   },
 ];
 

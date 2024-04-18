@@ -5,7 +5,6 @@
         <v-container class="mt-6">
           <v-responsive class="align-center text-center fill-height">
             <v-icon icon="mdi-cube" size="50" color="blue"></v-icon>
-
             <h2 class="font-weight-bold mt-3">请填写用户信息</h2>
             <v-sheet class="mx-auto" max-width="350">
               <a-form layout="vertical" :model="userinfo">
@@ -23,12 +22,9 @@
                 </a-button>
               </a-form>
             </v-sheet>
-
           </v-responsive>
         </v-container>
       </div>
-
-
       <div v-if="step==1">
         <v-container class="mt-6">
           <v-responsive class="align-center text-center fill-height">

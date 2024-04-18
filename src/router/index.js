@@ -1,5 +1,8 @@
 // Composables
 import {createRouter, createWebHistory} from 'vue-router'
+import {chatSignRefresh, fetchUserInfo} from "@/api/api";
+import {AppState, SDKAppID} from "@/main";
+import {TUILogin} from "@tencentcloud/tui-core";
 
 const routes = [
   {
@@ -18,15 +21,18 @@ const routes = [
   },
   {
     path: '/signup',
-    component: () => import('@/views/Signup.vue')
+    component: () => import('@/views/Signup.vue'),
+    name: 'SignUp'
   },
   {
     path: '/login',
-    component: () => import("@/views/Login.vue")
+    component: () => import("@/views/Login.vue"),
+    name: 'Login'
   },
   {
     path: '/workspace',
     component: () => import("@/layouts/workspace/Default.vue"),
+
     children: [
       {
         path: "",
@@ -56,14 +62,14 @@ const routes = [
       {
         path: "docs/edit/:id",
         name: "Edit",
-        component: () => import("@/components/docs/MDEditor.vue")
+        component: () => import("@/components/docs/MDEditor.vue"),
       },
       {
         path: "files",
         name: "Files",
         component: () => import("@/components/files/FileList.vue")
       }
-    ]
+    ],
   }
 ]
 
@@ -71,5 +77,35 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 })
+
+router.beforeEach(async (to, from) => {
+    if (to.name == "Home" || to.name == "Login" || to.name == "SignUp") {
+      return
+    }
+    if (AppState.sign_key == "empty") {
+      await fetchUserInfo().then(response => {
+        const {data} = response
+        console.log(data)
+        AppState.group_id = data.groupId
+        AppState.user_id = data.userId
+        return data
+      }).then(data => {
+        const request = {sig: AppState.sign_key}
+        chatSignRefresh(request).then(
+          response => {
+            const {data} = response
+            if (!data.ok) {
+              AppState.sign_key = data.sig
+            }
+          }
+        )
+      }).catch(error => {
+        router.replace({path: "/"})
+      })
+    }
+
+
+  }
+)
 
 export default router

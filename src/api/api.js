@@ -40,7 +40,10 @@ export const chatSignRefresh = (form) => {
       url: "/chat/refresh",
       method: "post",
       data: form,
-    }
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    },
   )
 }
 

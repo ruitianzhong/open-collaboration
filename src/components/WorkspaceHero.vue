@@ -8,7 +8,7 @@
           :steps="['',500,'协', 500, '协作', 500, '协作平', 1000,'协作平台',1000]"
           :loop="Infinity"
           :wrapper="'text'"
-          style="color: cornflowerblue"
+          style="color: cornflowerblue;"
         ></v-typical>
       </div>
       <div class="text-h5 font-weight-light  mt-8 typing">更高效地和你的队友/同事沟通协作</div>
@@ -109,8 +109,5 @@ import {VTypical} from "vue-typical";
 //
 </script>
 <style>
-.blink::after {
-  content: '|';
-  animation: blink 1s infinite step-start;
-}
+
 </style>

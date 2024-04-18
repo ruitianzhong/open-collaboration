@@ -29,3 +29,6 @@ VALUES ('1');
 INSERT INTO user (username, group_id, email, phone, password, user_id)
 VALUES ('test', '1', 'test@example.com', '12345678"', '123456', '1');
 
+INSERT INTO user (username, group_id, email, phone, password, user_id)
+VALUES ('test', '1', 'test@example.com', '12345678"', '123456', 'root');
+
