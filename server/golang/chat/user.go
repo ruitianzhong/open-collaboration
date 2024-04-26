@@ -3,7 +3,6 @@ package chat
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/schema"
 	"io/ioutil"
 	"log"
@@ -52,7 +51,6 @@ func AddUserAccount() error {
 	req := AddAccountRequest{UserID: "42", Nick: "RT"}
 	client := http.Client{}
 	b, err := json.Marshal(req)
-	fmt.Println(string(b))
 	if err != nil {
 		log.Println(err)
 		return err
@@ -71,8 +69,6 @@ func AddUserAccount() error {
 		return err
 	}
 
-	fmt.Println(string(b))
-	fmt.Println(param)
 	return nil
 
 }

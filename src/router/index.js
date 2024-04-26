@@ -102,8 +102,6 @@ router.beforeEach(async (to) => {
         console.log(error)
       })
     }
-
-
   }
 )
 

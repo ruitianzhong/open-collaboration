@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
@@ -23,14 +22,6 @@ func main() {
 	initDB()
 	translation.InitTranslation(c.Translation.Appid, c.Translation.Key)
 	storage.InitStorage(c.Storage.SecretId, c.Storage.SecretKey, c.Storage.BucketPath)
-	//_, err := translation.Translate(translation.ZH, translation.EN, "你好，世界")
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-	fmt.Println(c.Translation.Appid, c.Translation.Key)
-	//storage.Store()
-	//storage.Load()
-	//storage.Delete()
 	chat.Init(c.Chat.AppId, c.Chat.Key, c.Chat.AdminId)
 	//chat.AddUserAccount()
 
