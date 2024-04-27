@@ -9,7 +9,6 @@
       </a-form-item>
     </v-col>
   </v-row>
-  <!--  </v-container>-->
   <div class="fill-height">
 
     <md-editor class="mt-0" v-model="text" :toolbars-exclude="toolbars" @onSave="onSave" @onChange="onChange"

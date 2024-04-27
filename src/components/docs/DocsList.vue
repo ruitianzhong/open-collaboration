@@ -1,4 +1,4 @@
-<script xmlns="http://www.w3.org/1999/html">
+<script>
 import router from "@/router";
 import {deleteDocs, listDocs} from "@/api/api";
 import {AppState} from "@/main";

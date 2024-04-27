@@ -1,11 +1,10 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template>
   <v-container style="margin-top: 8%">
     <v-responsive class="align-center text-center fill-height">
       <div class="text-h2 font-weight-bold">欢迎使用
-        <!--        <text style="color: cornflowerblue">协作平台</text>-->
         <v-typical
           class="blink text-h2 font-weight-bold"
-          :steps="['',500,'协', 500, '协作', 500, '协作平', 1000,'协作平台',1000]"
+          :steps="['协', 500, '协作', 500, '协作平', 1000,'协作平台',1000]"
           :loop="Infinity"
           :wrapper="'text'"
           style="color: cornflowerblue;"
@@ -64,41 +63,8 @@
 
       </v-row>
       <v-row class="d-flex align-center justify-center">
-        <!--        <v-col cols="auto" class="mr-10">-->
-        <!--          <v-btn-->
-        <!--            href="/signup"-->
-        <!--            min-width="200"-->
-        <!--            variant="flat"-->
-        <!--            color="#EDEDED"-->
-        <!--            size="x-large">-->
-        <!--            <v-icon-->
-        <!--              icon="mdi-plus"-->
-        <!--              size="large"-->
-        <!--              start-->
-        <!--            />-->
-        <!--            注册账号-->
-        <!--          </v-btn>-->
-        <!--        </v-col>-->
-
-        <!--        <v-col cols="auto">-->
-        <!--          <v-btn-->
-        <!--            color="#07c360"-->
-        <!--            href="/login"-->
-        <!--            min-width="200"-->
-        <!--            size="x-large"-->
-        <!--            variant="flat"-->
-        <!--          >-->
-        <!--            <v-icon-->
-        <!--              icon="mdi-login"-->
-        <!--              size="large"-->
-        <!--              start-->
-        <!--            />-->
-        <!--            登录账号-->
-        <!--          </v-btn>-->
-        <!--        </v-col>-->
       </v-row>
       <v-row class="d-flex align-center justify-center">
-
       </v-row>
     </v-responsive>
   </v-container>

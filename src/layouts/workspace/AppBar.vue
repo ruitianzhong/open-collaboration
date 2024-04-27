@@ -23,7 +23,6 @@ export default {
           const {status} = response
           console.log(response)
           if (status == 200) {
-
             router.replace({path: "/"})
           }
         }
@@ -50,7 +49,6 @@ export default {
             color="black"
           ></v-btn>
         </template>
-
         <template v-slot:default="{ isActive }">
           <v-card title="翻译" prepend-icon="mdi-translate">
             <Translation></Translation>
@@ -59,7 +57,6 @@ export default {
               <v-spacer></v-spacer>
 
               <v-btn
-
                 text="关闭"
                 @click="isActive.value = false"
               ></v-btn>
