@@ -4,6 +4,7 @@ import Formula from "@/components/Formula.vue";
 import Chat from "@/components/Chat.vue";
 import router from "@/router";
 import {logout} from "@/api/api";
+import {AppState} from "@/main";
 
 export default {
   components: {Chat, Formula, Translation},
@@ -18,6 +19,9 @@ export default {
       })
     },
     onLogout() {
+      AppState.sign_key = "empty"
+      AppState.group_id = -1
+      AppState.user_id = -1
       logout({}).then(
         response => {
           const {status} = response
@@ -52,10 +56,8 @@ export default {
         <template v-slot:default="{ isActive }">
           <v-card title="翻译" prepend-icon="mdi-translate">
             <Translation></Translation>
-
             <v-card-actions>
               <v-spacer></v-spacer>
-
               <v-btn
                 text="关闭"
                 @click="isActive.value = false"

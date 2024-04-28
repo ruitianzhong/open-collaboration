@@ -87,9 +87,10 @@ router.beforeEach(async (to) => {
         console.log(data)
         AppState.group_id = data.groupId
         AppState.user_id = data.userId
-      }).then(() => {
+      }).then(async () => {
         const request = {sig: AppState.sign_key}
-        chatSignRefresh(request).then(
+        AppState.sign_key = "empty"
+        await chatSignRefresh(request).then(
           response => {
             const {data} = response
             if (!data.ok) {
