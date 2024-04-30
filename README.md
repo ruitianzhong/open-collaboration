@@ -134,3 +134,25 @@ client_max_body_size 10M;
             }
         }
 ```
+
+## Configuration
+
+All configuration is in config.yaml. You can copy config.template.yaml:
+
+```bash
+cp config.template.yaml config.yaml
+```
+
+You can modify the config.yaml based on your need.
+
+### Port
+
+```yaml
+port: 8081 
+```
+
+## API docs
+
+Read [API docs](docs/API.md).
+
+

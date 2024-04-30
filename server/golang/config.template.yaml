@@ -1,5 +1,7 @@
+# The port number on which the server is listened to
 port: 8081
 db:
+  # make sure run the init.sql in your database named after `temp` for example.
   username: example
   password: example
   dbname: temp
@@ -7,3 +9,15 @@ db:
   port: 3306
 auth:
   sessionKey: example_key
+translation:
+  appid: baidu_translation_appid
+  key: baidu_translation_key
+storage:
+  secretId: tencent_cos_secretId
+  secretKey: tencent_cos_secretKey
+  bucketPath: tencent_cos_bucketPath
+chat:
+  key: tencent_cloud_im_key
+  appid: tencent_cloud_im_appid
+  # your admin id for tencent cloud im. used to create/delete user and unused for now.
+  adminId: adminID
