@@ -1,5 +1,36 @@
 # Open Collaboration
 
+## Introduction
+
+Open Collaboration(协创云 in Chinese) is a web platform that supports online communication, Markdown editing & reading,
+translation and
+file storage.
+
+This is the group project for Software Engineering(软件工程) of Xidian University(Spring 2024).
+
+Our group includes Ruitian Zhong,Haoran Xu, Jiahao Li and Wenzhuo Li.
+
+To deploy the server and front end, see the following sections.
+
+If you have any problem, feel free to contact me!
+
+## Preview
+
+Homepage
+![](docs/images/homepage.png)
+Login
+![](docs/images/login.png)
+Chat
+![](docs/images/chat.png)
+Markdown editing
+![](docs/images/docs-editing.png)
+Docs list
+![](docs/images/docs-list.png)
+Docs Preview
+![](docs/images/docs-reading.png)
+Files list
+![](docs/images/file-list.png)
+
 ## Project setup
 
 ### Front end
