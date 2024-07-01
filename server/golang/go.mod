@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/gorilla/mux v1.8.1
-	github.com/gorilla/schema v1.3.0
+	github.com/gorilla/schema v1.4.1
 	github.com/gorilla/sessions v1.2.2
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.47
 	github.com/tencentyun/tls-sig-api-v2-golang v1.3.0
