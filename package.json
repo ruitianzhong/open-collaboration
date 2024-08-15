@@ -11,10 +11,10 @@
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
     "@mdi/font": "7.0.96",
-    "@tencentcloud/chat-uikit-vue": "^2.0.8",
+    "@tencentcloud/chat-uikit-vue": "^2.2.4",
     "@tencentcloud/tui-core": "^2.1.0",
     "ant-design-vue": "^4.1.2",
-    "axios": "^1.6.8",
+    "axios": "^1.7.4",
     "core-js": "^3.29.0",
     "dayjs": "^1.11.10",
     "mathjax": "^3.2.2",
